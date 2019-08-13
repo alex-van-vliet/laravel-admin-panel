@@ -1,0 +1,12 @@
+{
+    "name": "alex-van-vliet/lap",
+    "description": "An automated admin panel for laravel",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Alex van Vliet",
+            "email": "alex@vanvliet.pro"
+        }
+    ],
+    "require": {}
+}
