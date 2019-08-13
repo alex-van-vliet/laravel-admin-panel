@@ -10,9 +10,11 @@
                         <tr>
                             <th scope="col">#</th>
                             @foreach($fields as $field)
-                                <th scope="col">
-                                    {{ $field->displayName() }}
-                                </th>
+                                @if($field->option('displayed', true))
+                                    <th scope="col">
+                                        {{ $field->displayName() }}
+                                    </th>
+                                @endif
                             @endforeach
                         </tr>
                     </thead>
@@ -21,7 +23,9 @@
                             <tr>
                                 <th scope="row">{{ $result->id }}</th>
                                 @foreach($fields as $field)
-                                    <td>{{ $field->value($result) }}</td>
+                                    @if($field->option('displayed', true))
+                                        <td>{{ $field->value($result) }}</td>
+                                    @endif
                                 @endforeach
                             </tr>
                         @endforeach

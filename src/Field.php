@@ -21,7 +21,7 @@ class Field
         $this->name = $name;
         $this->type = Str::lower($options['type']);
         unset($options['type']);
-        $this->options;
+        $this->options = $options;
     }
 
     public function getName()
@@ -55,5 +55,10 @@ class Field
             default:
                 return $result->{$this->name};
         }
+    }
+
+    public function option($name, $default)
+    {
+        return $this->options[$name] ?? $default;
     }
 }
