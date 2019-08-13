@@ -42,7 +42,7 @@ class AdminController extends Controller
         return $query->get();
     }
 
-    protected function index_title()
+    protected function indexTitle()
     {
         return Str::plural(static::$title);
     }
@@ -67,12 +67,21 @@ class AdminController extends Controller
         })->toArray();
     }
 
+    protected function fields()
+    {
+        return collect(static::$fields)
+            ->map(function ($field, $name) {
+                return new Field($name, $field);
+            });
+    }
+
     public function index(Request $request)
     {
         return view('lap::index')
             ->with('results', $this->results())
             ->with('paginated', !!self::$paginateBy)
-            ->with('title', $this->index_title())
-            ->with('urls', $this->urls($request));
+            ->with('title', $this->indexTitle())
+            ->with('urls', $this->urls($request))
+            ->with('fields', $this->fields());
     }
 }
