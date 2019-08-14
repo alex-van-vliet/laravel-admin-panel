@@ -11,7 +11,7 @@ interface Field
 
     public function displayText($name = null);
 
-    public function sortable($key = null);
+    public function sortKey($key = null);
     public function unsortable();
 
     public function view($type);
