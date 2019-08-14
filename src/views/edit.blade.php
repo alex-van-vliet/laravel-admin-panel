@@ -19,6 +19,9 @@
                         @endif
                     @endforeach
                     <button type="submit" class="btn btn-primary">Update</button>
+                    <a href="{{ route('admin.show', [$resource, $result]) }}" class="btn btn-light">
+                        Show
+                    </a>
                 </form>
             </div>
         </div>

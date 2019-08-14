@@ -22,6 +22,14 @@
                                 </tr>
                             @endif
                         @endforeach
+                        <tr>
+                            <th scope="col" class="align-middle">Actions</th>
+                            <td>
+                                <a href="{{ route('admin.edit', [$resource, $result]) }}" class="btn btn-primary">
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
