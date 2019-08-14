@@ -5,7 +5,9 @@
         <div class="card mb-2">
             <h5 class="card-header d-flex">
                 <span class="flex-grow-1">{{ $title }}</span>
-                <a href="{{ route('admin.create', [$resource]) }}" class="ml-2"><i class="fa fa-plus"></i></a>
+                @if($config['pages'] & \AlexVanVliet\LAP\Pages::CREATE)
+                    <a href="{{ route('admin.create', [$resource]) }}" class="ml-2"><i class="fa fa-plus"></i></a>
+                @endif
             </h5>
             <div class="card-body p-0 table-responsive">
                 <table class="table table-hover mb-0">
@@ -53,20 +55,21 @@
                                     @endif
                                 @endforeach
                                 <td class="align-middle text-nowrap">
-                                    <a href="{{ route('admin.show', [$resource, $result]) }}" class="btn btn-light btn-sm">
-                                        Show
-                                    </a>
-                                    <a href="{{ route('admin.edit', [$resource, $result]) }}" class="btn btn-primary btn-sm">
-                                        Edit
-                                    </a>
-                                    <form action="{{ route('admin.destroy', [$resource, $result]) }}" method="POST" class="d-inline">
-                                        {{ csrf_field() }}
-                                        {{ method_field('DELETE') }}
-                                        <button class="btn btn-danger btn-sm"
-                                                type="submit">
+                                    @if($config['pages'] & \AlexVanVliet\LAP\Pages::SHOW)
+                                        <a href="{{ route('admin.show', [$resource, $result]) }}" class="btn btn-light btn-sm">
+                                            Show
+                                        </a>
+                                    @endif
+                                    @if($config['pages'] & \AlexVanVliet\LAP\Pages::EDIT)
+                                        <a href="{{ route('admin.edit', [$resource, $result]) }}" class="btn btn-primary btn-sm">
+                                            Edit
+                                        </a>
+                                    @endif
+                                    @if($config['pages'] & \AlexVanVliet\LAP\Pages::DELETE)
+                                        <a href="{{ route('admin.delete', [$resource, $result]) }}" class="btn btn-danger btn-sm">
                                             Delete
-                                        </button>
-                                    </form>
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

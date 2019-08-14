@@ -24,10 +24,18 @@
         <div class="card mb-2">
             <h5 class="card-header d-flex">
                 <span class="flex-grow-1">{{ $title }}</span>
-                <a href="{{ route('admin.index', [$resource]) }}" class="ml-2"><i class="fa fa-list"></i></a>
-                <a href="{{ route('admin.create', [$resource]) }}" class="ml-2"><i class="fa fa-plus"></i></a>
-                <a href="{{ route('admin.show', [$resource, $result]) }}" class="ml-2"><i class="fa fa-eye"></i></a>
-                <a href="{{ route('admin.edit', [$resource, $result]) }}" class="ml-2"><i class="fa fa-pencil-alt"></i></a>
+                @if($config['pages'] & \AlexVanVliet\LAP\Pages::INDEX)
+                    <a href="{{ route('admin.index', [$resource]) }}" class="ml-2"><i class="fa fa-list"></i></a>
+                @endif
+                @if($config['pages'] & \AlexVanVliet\LAP\Pages::CREATE)
+                    <a href="{{ route('admin.create', [$resource]) }}" class="ml-2"><i class="fa fa-plus"></i></a>
+                @endif
+                @if($config['pages'] & \AlexVanVliet\LAP\Pages::SHOW)
+                    <a href="{{ route('admin.show', [$resource, $result]) }}" class="ml-2"><i class="fa fa-eye"></i></a>
+                @endif
+                @if($config['pages'] & \AlexVanVliet\LAP\Pages::EDIT)
+                    <a href="{{ route('admin.edit', [$resource, $result]) }}" class="ml-2"><i class="fa fa-pencil-alt"></i></a>
+                @endif
             </h5>
             <div class="card-body p-0 table-responsive">
                 <table class="table table-hover mb-0">

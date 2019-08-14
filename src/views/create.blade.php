@@ -5,7 +5,9 @@
         <div class="card mb-2">
             <h5 class="card-header d-flex">
                 <span class="flex-grow-1">{{ $title }}</span>
-                <a href="{{ route('admin.index', [$resource]) }}" class="ml-2"><i class="fa fa-list"></i></a>
+                @if($config['pages'] & \AlexVanVliet\LAP\Pages::INDEX)
+                    <a href="{{ route('admin.index', [$resource]) }}" class="ml-2"><i class="fa fa-list"></i></a>
+                @endif
             </h5>
             <div class="card-body">
                 <form action="{{ route('admin.store', [$resource]) }}" method="POST">
