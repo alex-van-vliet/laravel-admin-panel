@@ -13,7 +13,10 @@ class LAPServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(LaravelAdminPanel::class, function () {
+            return new LaravelAdminPanel();
+        });
+        $this->app->bind('lap', LaravelAdminPanel::class);
     }
 
     /**

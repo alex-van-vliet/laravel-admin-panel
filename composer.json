@@ -8,5 +8,15 @@
             "email": "alex@vanvliet.pro"
         }
     ],
-    "require": {}
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AlexVanVliet\\LAP\\LAPServiceProvider"
+            ],
+            "aliases": {
+                "LAP": "AlexVanVliet\\LAP\\LAP"
+            }
+        }
+    }
 }
