@@ -20,7 +20,9 @@ interface Field
 
     public function rules($rules = null);
 
+    public function storeValue($value);
     public function updateValue($current, $value);
 
+    public function removeFromInputIfEmptyOnStore();
     public function removeFromInputIfEmptyOnUpdate();
 }

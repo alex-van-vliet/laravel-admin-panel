@@ -7,7 +7,7 @@ use Illuminate\Validation\Rules\Unique;
 
 trait HasValidation
 {
-    protected function updateInput($request, $config)
+    protected function updateInput($request, $config, $update = null)
     {
         $input = $request->input();
         foreach ($input as $key => $value) {
@@ -18,10 +18,16 @@ trait HasValidation
                     break;
                 }
             }
-            if ($field && $field->removeFromInputIfEmptyOnUpdate()
-                && is_null($value)
-            ) {
-                unset($input[$key]);
+            if ($field && is_null($value)) {
+                if ($update) {
+                    if ($field->removeFromInputIfEmptyOnUpdate()) {
+                        unset($input[$key]);
+                    }
+                } else {
+                    if ($field->removeFromInputIfEmptyOnStore()) {
+                        unset($input[$key]);
+                    }
+                }
             }
         }
         $request->replace($input);

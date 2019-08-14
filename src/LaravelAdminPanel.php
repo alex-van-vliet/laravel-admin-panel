@@ -2,10 +2,12 @@
 
 namespace AlexVanVliet\LAP;
 
+use AlexVanVliet\LAP\Controllers\CreateController;
 use AlexVanVliet\LAP\Controllers\DestroyController;
 use AlexVanVliet\LAP\Controllers\EditController;
 use AlexVanVliet\LAP\Controllers\IndexController;
 use AlexVanVliet\LAP\Controllers\ShowController;
+use AlexVanVliet\LAP\Controllers\StoreController;
 use AlexVanVliet\LAP\Controllers\UpdateController;
 use AlexVanVliet\LAP\Exceptions\Exception;
 use AlexVanVliet\LAP\Exceptions\ModelNotFoundException;
@@ -44,12 +46,20 @@ class LaravelAdminPanel
     {
         $this->registrar->get('/{resource}', IndexController::class)
             ->name('admin.index');
+
+        $this->registrar->get('/{resource}/create', CreateController::class)
+            ->name('admin.create');
+        $this->registrar->post('/{resource}', StoreController::class)
+            ->name('admin.store');
+
         $this->registrar->get('/{resource}/{id}', ShowController::class)
             ->name('admin.show');
+
         $this->registrar->get('/{resource}/{id}/edit', EditController::class)
             ->name('admin.edit');
         $this->registrar->put('/{resource}/{id}', UpdateController::class)
             ->name('admin.update');
+
         $this->registrar->delete('/{resource}/{id}', DestroyController::class)
             ->name('admin.destroy');
     }

@@ -5,8 +5,9 @@
         <div class="card mb-2">
             <h5 class="card-header d-flex">
                 <span class="flex-grow-1">{{ $title }}</span>
+                <a href="{{ route('admin.index', [$resource]) }}" class="mr-2"><i class="fa fa-list"></i></a>
+                <a href="{{ route('admin.create', [$resource]) }}" class="mr-2"><i class="fa fa-plus"></i></a>
                 <a href="{{ route('admin.edit', [$resource, $result]) }}" class="mr-2"><i class="fa fa-pencil-alt"></i></a>
-                <a href="{{ route('admin.index', [$resource]) }}" class="mr-2"><i class="fa fa-undo"></i></a>
                 <form action="{{ route('admin.destroy', [$resource, $result]) }}" method="POST" class="d-inline">
                     {{ csrf_field() }}
                     {{ method_field('DELETE') }}

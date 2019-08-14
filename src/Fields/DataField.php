@@ -27,12 +27,22 @@ abstract class DataField implements Field
         return false;
     }
 
+    public function storeValue($value)
+    {
+        return $value;
+    }
+
     public function updateValue($current, $value)
     {
         if (is_null($value)) {
             return $current;
         }
         return $value;
+    }
+
+    public function removeFromInputIfEmptyOnStore()
+    {
+        return false;
     }
 
     public function removeFromInputIfEmptyOnUpdate()

@@ -16,6 +16,11 @@ class Password extends DataField
         return "lap::fields.password.$type";
     }
 
+    public function storeValue($value)
+    {
+        return Hash::make($value);
+    }
+
     public function updateValue($current, $value)
     {
         if (is_null($value))

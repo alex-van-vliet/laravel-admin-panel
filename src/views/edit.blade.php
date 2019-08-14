@@ -5,8 +5,9 @@
         <div class="card mb-2">
             <h5 class="card-header d-flex">
                 <span class="flex-grow-1">{{ $title }}</span>
+                <a href="{{ route('admin.index', [$resource]) }}" class="mr-2"><i class="fa fa-list"></i></a>
+                <a href="{{ route('admin.create', [$resource]) }}" class="mr-2"><i class="fa fa-plus"></i></a>
                 <a href="{{ route('admin.show', [$resource, $result]) }}" class="mr-2"><i class="fa fa-eye"></i></a>
-                <a href="{{ route('admin.index', [$resource]) }}" class="mr-2"><i class="fa fa-undo"></i></a>
                 <form action="{{ route('admin.destroy', [$resource, $result]) }}" method="POST" class="d-inline">
                     {{ csrf_field() }}
                     {{ method_field('DELETE') }}
@@ -24,7 +25,7 @@
                     {{ csrf_field() }}
                     {{ method_field('PUT') }}
                     @foreach($config['fields'] as $field)
-                        @if($field->pages() & \AlexVanVliet\LAP\Pages::SHOW
+                        @if($field->pages() & \AlexVanVliet\LAP\Pages::EDIT
                             && $field->display() === \AlexVanVliet\LAP\Fields\Field::INLINE)
                             @include($field->view('edit'), [
                                 'type' => 'edit',
