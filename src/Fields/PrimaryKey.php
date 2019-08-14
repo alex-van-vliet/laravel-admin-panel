@@ -8,4 +8,9 @@ class PrimaryKey extends DataField
     {
         parent::__construct('number', $name);
     }
+
+    public function readonly()
+    {
+        return true;
+    }
 }

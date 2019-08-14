@@ -25,4 +25,9 @@ abstract class DataField implements Field
     {
         return Field::INLINE;
     }
+
+    public function readonly()
+    {
+        return false;
+    }
 }

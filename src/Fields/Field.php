@@ -15,4 +15,6 @@ interface Field
     public function unsortable();
 
     public function view($type);
+
+    public function readonly();
 }

@@ -30,20 +30,6 @@
                                         @endif
                                     </th>
                                 @endif
-                                {{--@if($field->option('displayed', true))
-                                    <th scope="col">
-                                        @if ($sortingModule && $field->option('sort_key', false))
-                                            <a href="{{ url($request->getRequest()->path()) }}?sort={{ urlencode($sortingModule->queryString($field)) }}">
-                                                {{ $field->displayName() }}
-                                                @if(!is_null($number = $sortingModule->number($field)))
-                                                    ({{ $number + 1 }})
-                                                @endif
-                                            </a>
-                                        @else
-                                            {{ $field->displayName() }}
-                                        @endif
-                                    </th>
-                                @endif--}}
                             @endforeach
                             <th scope="col">Actions</th>
                         </tr>
@@ -63,9 +49,12 @@
                                         </td>
                                     @endif
                                 @endforeach
-                                <td class="align-middle">
-                                    <a href="{{ route('admin.show', [$resource, $result]) }}" class="btn btn-light">
+                                <td class="align-middle text-nowrap">
+                                    <a href="{{ route('admin.show', [$resource, $result]) }}" class="btn btn-light btn-sm">
                                         Show
+                                    </a>
+                                    <a href="{{ route('admin.edit', [$resource, $result]) }}" class="btn btn-primary btn-sm">
+                                        Edit
                                     </a>
                                 </td>
                             </tr>
