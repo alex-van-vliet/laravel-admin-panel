@@ -17,4 +17,8 @@ interface Field
     public function view($type);
 
     public function readonly();
+
+    public function rules($rules = null);
+
+    public function updateValue($value);
 }

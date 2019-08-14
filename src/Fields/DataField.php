@@ -4,11 +4,7 @@ namespace AlexVanVliet\LAP\Fields;
 
 abstract class DataField implements Field
 {
-    use HasSortKey;
-    use HasPages;
-    use HasDisplayText;
-    use HasType;
-    use HasName;
+    use HasSortKey, HasPages, HasDisplayText, HasType, HasName, HasRules;
 
     public function __construct($type, $name)
     {
@@ -29,5 +25,10 @@ abstract class DataField implements Field
     public function readonly()
     {
         return false;
+    }
+
+    public function updateValue($value)
+    {
+        return $value;
     }
 }
