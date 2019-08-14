@@ -8,21 +8,18 @@ class Pagination extends Module
 {
     protected $perPage;
 
-    public function __construct(AdminController $controller, $perPage = 25)
+    public function __construct($perPage = 25)
     {
-        parent::__construct($controller);
         $this->perPage = $perPage;
     }
 
-    public function query($query, $next)
+    public function query($request, $query, $next)
     {
-        return $next($query)->paginate($this->perPage);
-    }
-
-    public function handle($results, $next)
-    {
-        return $next($results)
-            ->with('paginated', true)
-            ->with(static::class, $this);
+        $return = $next($request, $query);
+        $perPage = $this->perPage;
+        $request->setFetchMethod(function ($query) use ($perPage) {
+            return $query->paginate($perPage);
+        });
+        return $return;
     }
 }

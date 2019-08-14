@@ -10,34 +10,25 @@ class Index extends Module
 {
     protected $options;
 
-    public function __construct(AdminController $controller, $options = [])
-    {
-        parent::__construct($controller);
+    protected $title;
 
+    public function __construct($options = [])
+    {
         $this->options = $options;
     }
 
-    protected function title()
+    public function getTitle()
     {
-        return $this->options['title'] ??
-            Str::plural(class_basename($this->controller->getModel()));
+        return $this->title;
     }
 
-    protected function fields()
+    public function handle($request, $results, $next)
     {
-        $fields = [];
-        foreach ($this->controller->getFields() as $name => $options) {
-            $fields[] = new Field($name, $options);
-        }
-        return $fields;
-    }
+        $this->title = $this->options['title'] ??
+            Str::plural(class_basename($request->getModel()));
 
-    public function handle($results, $next)
-    {
-        return $next(view('lap::index')
-            ->with('title', $this->title())
-            ->with('fields', $this->fields())
-            ->with('results', $results)
-            ->with(static::class, $this));
+        return $next($request, view('lap::index'))
+            ->with('request', $request)
+            ->with('results', $results);
     }
 }

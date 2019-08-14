@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AlexVanVliet\LAP;
 
 
@@ -14,7 +16,8 @@ class Field
     /**
      * Field constructor.
      *
-     * @param $field
+     * @param $name
+     * @param $options
      */
     public function __construct($name, $options)
     {
@@ -46,8 +49,7 @@ class Field
 
     public function value($result)
     {
-        switch ($this->type)
-        {
+        switch ($this->type) {
             case 'password':
                 return '********';
             case 'boolean':

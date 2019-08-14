@@ -7,21 +7,14 @@ use AlexVanVliet\LAP\AdminController;
 
 abstract class Module
 {
-    protected $controller;
-
-    public function __construct(AdminController $controller)
+    public function query($request, $query, $next)
     {
-        $this->controller = $controller;
+        return $next($request, $query);
     }
 
-    public function query($query, $next)
+    public function handle($request, $results, $next)
     {
-        return $next($query);
-    }
-
-    public function handle($results, $next)
-    {
-        return $next($results)
+        return $next($request, $results)
             ->with(static::class, $this);
     }
 }
