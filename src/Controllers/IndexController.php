@@ -14,7 +14,7 @@ class IndexController extends Controller
         $config = $this->panel->getConfig($model);
 
         $query = $config['query'](call_user_func([$model, 'query']));
-        if ($config['paginate'] === false) {
+        if (!$config['paginate']) {
             $results = $query->all();
         } else {
             $results = $query->paginate($config['paginate']);

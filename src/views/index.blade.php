@@ -60,12 +60,8 @@
                 </table>
             </div>
         </div>
-        {{--@if ($paginationModule)
-            @if ($sortingModule)
-                {{ $results->appends(['sort' => $sortingModule->queryString()])->links() }}
-            @else
-                {{ $results->links() }}
-            @endif
-        @endif--}}
+        @if($config['paginate'])
+            {{ $results->links() }}
+        @endif
     </div>
 @endsection
