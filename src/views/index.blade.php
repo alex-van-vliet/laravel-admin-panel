@@ -11,7 +11,24 @@
                             @foreach($config['fields'] as $field)
                                 @if($field->pages() & \AlexVanVliet\LAP\Pages::INDEX
                                     && $field->display() === \AlexVanVliet\LAP\Fields\Field::INLINE)
-                                    <th scope="col">{{ \Illuminate\Support\Str::ucfirst($field->displayText()) }}</th>
+                                    <th scope="col" class="text-nowrap">
+                                        @if ($field->sortKey())
+                                            @php($sortQueryString = $sort['url']($field))
+                                            <a href="{{ route('admin.index', [$resource])
+                                                        .($sortQueryString ? "?sort=$sortQueryString" : '') }}">
+                                                {{ \Illuminate\Support\Str::ucfirst($field->displayText()) }}
+                                                @php($sortOrder = $sort['order']($field))
+                                                @if ($sortOrder)
+                                                    <i class="fa fa-sort-{{ $sortOrder === 'asc' ? 'up' : 'down' }}"></i>
+                                                    ({{ $sort['position']($field) }})
+                                                @else
+                                                    <i class="fa fa-sort"></i>
+                                                @endif
+                                            </a>
+                                        @else
+                                            {{ \Illuminate\Support\Str::ucfirst($field->displayText()) }}
+                                        @endif
+                                    </th>
                                 @endif
                                 {{--@if($field->option('displayed', true))
                                     <th scope="col">
@@ -19,10 +36,7 @@
                                             <a href="{{ url($request->getRequest()->path()) }}?sort={{ urlencode($sortingModule->queryString($field)) }}">
                                                 {{ $field->displayName() }}
                                                 @if(!is_null($number = $sortingModule->number($field)))
-                                                    <i class="fa fa-sort-{{ ($sortingModule->order($field)) === 'asc' ? 'up' : 'down' }}"></i>
                                                     ({{ $number + 1 }})
-                                                @else
-                                                    <i class="fa fa-sort"></i>
                                                 @endif
                                             </a>
                                         @else

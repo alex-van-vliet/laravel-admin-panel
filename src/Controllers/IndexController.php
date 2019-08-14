@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 class IndexController extends Controller
 {
-    public function keys($config)
+    public function names($config)
     {
         return collect($config['fields'])
             ->filter(function ($field) {
@@ -20,16 +20,16 @@ class IndexController extends Controller
             ->toArray();
     }
 
-    public function parseSort($queryString, $keys)
+    public function parseSort($queryString, $names)
     {
         $positions = [];
         $i = 0;
         $orders = collect(explode(',', $queryString))
-            ->map(function ($value) use (&$keys, &$positions, &$i) {
-                if (!preg_match('((.*)_(asc|desc))i', $value, $matches)) {
+            ->map(function ($value) use (&$names, &$positions, &$i) {
+                if (!preg_match('(^(.*)_(asc|desc)$)i', $value, $matches)) {
                     return null;
                 }
-                if (!isset($keys[$matches[1]])) {
+                if (!isset($names[$matches[1]])) {
                     return null;
                 }
                 if (isset($positions[$matches[1]])) {
@@ -38,7 +38,7 @@ class IndexController extends Controller
                 $positions[$matches[1]] = $i++;
                 return [
                     'key' => $matches[1],
-                    'name' => $keys[$matches[1]],
+                    'name' => $names[$matches[1]],
                     'order' => strtolower($matches[2]),
                 ];
             })
@@ -47,17 +47,63 @@ class IndexController extends Controller
             })->toArray();
         return [
             'positions' => $positions,
-            'orders' => $orders
+            'orders' => $orders,
         ];
     }
 
     public function handleSort($query, $sort)
     {
-        foreach ($sort['orders'] as $order)
-        {
+        foreach ($sort['orders'] as $order) {
             $query = $query->orderBy($order['name'], $order['order']);
         }
         return $query;
+    }
+
+    public function sortQueryString(&$sort)
+    {
+        return function ($field) use (&$sort) {
+            $key = $field->sortKey();
+            $orders = $sort['orders'];
+            if (isset($sort['positions'][$key])) {
+                if ($orders[$sort['positions'][$key]]['order'] === 'desc') {
+                    unset($orders[$sort['positions'][$key]]);
+                } else {
+                    $orders[$sort['positions'][$key]]['order'] = 'desc';
+                }
+            } else {
+                array_push($orders, [
+                    'key' => $key,
+                    'order' => 'asc',
+                ]);
+            }
+            return urlencode(collect($orders)
+                ->map(function ($order) {
+                    return $order['key'].'_'.$order['order'];
+                })
+                ->implode(','));
+        };
+    }
+
+    public function sortOrder(&$sort)
+    {
+        return function ($field) use (&$sort) {
+            $key = $field->sortKey();
+            if (isset($sort['positions'][$key])) {
+                return $sort['orders'][$sort['positions'][$key]]['order'];
+            }
+            return null;
+        };
+    }
+
+    public function sortPosition(&$sort)
+    {
+        return function ($field) use (&$sort) {
+            $key = $field->sortKey();
+            if (isset($sort['positions'][$key])) {
+                return $sort['positions'][$key];
+            }
+            return -1;
+        };
     }
 
     public function __invoke(Request $request, $resource)
@@ -67,15 +113,21 @@ class IndexController extends Controller
 
         $query = $config['query'](call_user_func([$model, 'query']));
 
-        $keys = $this->keys($config);
-        $sort = $this->parseSort($request->get('sort', ''), $keys);
-        $sort['keys'] = $keys;
+        $names = $this->names($config);
+        $sort = $this->parseSort($request->get('sort', ''), $names);
+        $sort['names'] = $names;
+        $sort['url'] = $this->sortQueryString($sort);
+        $sort['order'] = $this->sortOrder($sort);
+        $sort['position'] = $this->sortPosition($sort);
         $query = $this->handleSort($query, $sort);
 
         if (!$config['paginate']) {
             $results = $query->all();
         } else {
             $results = $query->paginate($config['paginate']);
+            if ($request->has('sort')) {
+                $results->appends(['sort' => $request->get('sort')]);
+            }
         }
 
         return view('lap::index')
