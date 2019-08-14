@@ -38,17 +38,18 @@ class AdminController extends Controller
      */
     public function __construct()
     {
-        if (is_null($this->model)) {
+        if (!isset($this->model)) {
             throw new MissingOptionException('model');
         }
-        if (is_null($this->fields)) {
+        $model = new $this->model();
+        if (!isset($model->fields)) {
             throw new MissingOptionException('fields');
         }
-        if (is_null($this->modules)) {
+        if (!isset($this->modules)) {
             throw new MissingOptionException('modules');
         }
 
-        foreach ($this->fields as $name => $options) {
+        foreach ($model->fields as $name => $options) {
             $this->fields[$name] = new Field($name, $options);
         }
     }
