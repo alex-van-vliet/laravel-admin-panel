@@ -2,6 +2,7 @@
 
 namespace AlexVanVliet\LAP;
 
+use AlexVanVliet\LAP\Controllers\DestroyController;
 use AlexVanVliet\LAP\Controllers\EditController;
 use AlexVanVliet\LAP\Controllers\IndexController;
 use AlexVanVliet\LAP\Controllers\ShowController;
@@ -49,6 +50,8 @@ class LaravelAdminPanel
             ->name('admin.edit');
         $this->registrar->put('/{resource}/{id}', UpdateController::class)
             ->name('admin.update');
+        $this->registrar->delete('/{resource}/{id}', DestroyController::class)
+            ->name('admin.destroy');
     }
 
     public function findModel($url)

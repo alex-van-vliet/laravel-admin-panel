@@ -56,6 +56,14 @@
                                     <a href="{{ route('admin.edit', [$resource, $result]) }}" class="btn btn-primary btn-sm">
                                         Edit
                                     </a>
+                                    <form action="{{ route('admin.destroy', [$resource, $result]) }}" method="POST" class="d-inline">
+                                        {{ csrf_field() }}
+                                        {{ method_field('DELETE') }}
+                                        <button class="btn btn-danger btn-sm"
+                                                type="submit">
+                                            Delete
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

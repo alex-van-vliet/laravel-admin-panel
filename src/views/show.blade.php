@@ -6,7 +6,18 @@
             <h5 class="card-header d-flex">
                 <span class="flex-grow-1">{{ $title }}</span>
                 <a href="{{ route('admin.edit', [$resource, $result]) }}" class="mr-2"><i class="fa fa-pencil-alt"></i></a>
-                <a href="{{ route('admin.index', [$resource]) }}"><i class="fa fa-undo"></i></a>
+                <a href="{{ route('admin.index', [$resource]) }}" class="mr-2"><i class="fa fa-undo"></i></a>
+                <form action="{{ route('admin.destroy', [$resource, $result]) }}" method="POST" class="d-inline">
+                    {{ csrf_field() }}
+                    {{ method_field('DELETE') }}
+                    <form action="{{ route('admin.destroy', [$resource, $result]) }}" method="POST" class="d-inline">
+                        {{ csrf_field() }}
+                        {{ method_field('DELETE') }}
+                        <a type="submit" href="#" onclick="this.parentNode.submit(); return false;">
+                            <i class="fa fa-trash-alt text-danger"></i>
+                        </a>
+                    </form>
+                </form>
             </h5>
             <div class="card-body p-0 table-responsive">
                 <table class="table table-hover mb-0">
