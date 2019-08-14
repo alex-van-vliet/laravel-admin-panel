@@ -46,8 +46,8 @@
                                 <tr>
                                     <th scope="col">{{ \Illuminate\Support\Str::ucfirst($field->displayText()) }}</th>
                                     <td>
-                                        @include($field->view('show'), [
-                                            'type' => 'show',
+                                        @include($field->view('delete'), [
+                                            'type' => 'delete',
                                             'field' => $field,
                                             'model' => $result,
                                         ])

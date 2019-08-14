@@ -4,7 +4,8 @@ namespace AlexVanVliet\LAP\Fields;
 
 abstract class DataField implements Field
 {
-    use HasSortKey, HasPages, HasDisplayText, HasType, HasName, HasRules;
+    use HasModel, HasSortKey, HasPages, HasDisplayText, HasType, HasName,
+        HasRules;
 
     public function __construct($type, $name)
     {
@@ -38,6 +39,11 @@ abstract class DataField implements Field
             return $current;
         }
         return $value;
+    }
+
+    public function renameBeforeSave()
+    {
+        return null;
     }
 
     public function removeFromInputIfEmptyOnStore()

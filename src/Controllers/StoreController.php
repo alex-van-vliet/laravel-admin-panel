@@ -32,6 +32,10 @@ class StoreController extends Controller
 
             $data[$field->name()]
                 = $field->storeValue($data[$field->name()] ?? null);
+
+            if ($rename = $field->renameBeforeSave()) {
+                $data[$rename] = $data[$field->name()];
+            }
         }
 
         $result = call_user_func([$model, 'create'], $data);

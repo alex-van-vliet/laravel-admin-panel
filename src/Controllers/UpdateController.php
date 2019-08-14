@@ -36,6 +36,10 @@ class UpdateController extends Controller
             $data[$field->name()]
                 = $field->updateValue($result->{$field->name()},
                 $data[$field->name()] ?? null);
+
+            if ($rename = $field->renameBeforeSave()) {
+                $data[$rename] = $data[$field->name()];
+            }
         }
 
         $result->fill($data);
