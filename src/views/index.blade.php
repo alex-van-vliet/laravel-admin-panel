@@ -13,14 +13,14 @@
                                     && $field->display() === \AlexVanVliet\LAP\Fields\Field::INLINE)
                                     <th scope="col" class="text-nowrap">
                                         @if ($field->sortKey())
-                                            @php($sortQueryString = $sort['url']($field))
+                                            @php($sortQueryString = $sort['url']($sort, $field))
                                             <a href="{{ route('admin.index', [$resource])
                                                         .($sortQueryString ? "?sort=$sortQueryString" : '') }}">
                                                 {{ \Illuminate\Support\Str::ucfirst($field->displayText()) }}
-                                                @php($sortOrder = $sort['order']($field))
+                                                @php($sortOrder = $sort['order']($sort, $field))
                                                 @if ($sortOrder)
                                                     <i class="fa fa-sort-{{ $sortOrder === 'asc' ? 'up' : 'down' }}"></i>
-                                                    ({{ $sort['position']($field) }})
+                                                    ({{ $sort['position']($sort, $field) }})
                                                 @else
                                                     <i class="fa fa-sort"></i>
                                                 @endif
