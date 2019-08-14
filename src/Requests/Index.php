@@ -31,9 +31,8 @@ class Index
         $this->setupModules($modules);
     }
 
-    protected function query()
+    protected function query($query)
     {
-        $query = call_user_func_array([$this->model, 'query'], []);
         $i = 0;
         $next = function ($request, $query) use (&$i, &$next) {
             if ($i === count($request->getModules())) {
@@ -59,9 +58,9 @@ class Index
     /**
      * @return mixed
      */
-    public function render()
+    public function render($query)
     {
-        $query = $this->query();
+        $query = $this->query($query);
         $results = $this->getFetchMethod()($query);
         return $this->handle($results);
     }

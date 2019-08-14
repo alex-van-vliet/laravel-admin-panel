@@ -54,6 +54,11 @@ class AdminController extends Controller
         }
     }
 
+    protected function getQueryBuilder($request)
+    {
+        return call_user_func_array([$this->model, 'query'], []);
+    }
+
     /**
      * @param  \Illuminate\Http\Request  $request
      *
@@ -63,6 +68,6 @@ class AdminController extends Controller
     {
         $adminRequest = new Index($request, $this->model, $this->fields,
             $this->modules['index']);
-        return $adminRequest->render();
+        return $adminRequest->render($this->getQueryBuilder($request));
     }
 }
