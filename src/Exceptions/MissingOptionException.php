@@ -1,6 +1,6 @@
 <?php
 
-namespace AlexVanVliet\LAP;
+namespace AlexVanVliet\LAP\Exceptions;
 
 use Exception;
 use Throwable;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AlexVanVliet\LAP;
 
+use AlexVanVliet\LAP\Exceptions\MissingOptionException;
 use AlexVanVliet\LAP\Requests\Index;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -34,7 +35,7 @@ class AdminController extends Controller
     /**
      * AdminController constructor.
      *
-     * @throws \AlexVanVliet\LAP\MissingOptionException
+     * @throws \AlexVanVliet\LAP\Exceptions\MissingOptionException
      */
     public function __construct()
     {

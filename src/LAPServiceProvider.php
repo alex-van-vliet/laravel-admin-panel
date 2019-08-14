@@ -2,6 +2,7 @@
 
 namespace AlexVanVliet\LAP;
 
+use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\ServiceProvider;
 
 class LAPServiceProvider extends ServiceProvider
@@ -13,8 +14,8 @@ class LAPServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(LaravelAdminPanel::class, function () {
-            return new LaravelAdminPanel();
+        $this->app->singleton(LaravelAdminPanel::class, function ($app) {
+            return new LaravelAdminPanel($app->make(RouteRegistrar::class));
         });
         $this->app->bind('lap', LaravelAdminPanel::class);
     }
