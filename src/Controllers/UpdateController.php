@@ -4,6 +4,7 @@ namespace AlexVanVliet\LAP\Controllers;
 
 
 use AlexVanVliet\LAP\Exceptions\SetupException;
+use AlexVanVliet\LAP\Pages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Unique;
@@ -16,6 +17,9 @@ class UpdateController extends Controller
     {
         $model = $this->panel->findModel($resource);
         $config = $this->panel->getConfig($model);
+        if (!($config['pages'] & Pages::EDIT)) {
+            return abort(404);
+        }
 
         $query = $config['query'](call_user_func([$model, 'query']));
         $result = $query->findOrFail($id);

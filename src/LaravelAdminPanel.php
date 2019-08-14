@@ -73,11 +73,12 @@ class LaravelAdminPanel
 
     public function getConfig($model)
     {
-        return array_merge(call_user_func([$model, 'getConfig']), [
+        return array_merge([
             'paginate' => 25,
             'query' => function ($query) {
                 return $query;
             },
-        ]);
+            'pages' => Pages::ALL,
+        ], call_user_func([$model, 'getConfig']));
     }
 }

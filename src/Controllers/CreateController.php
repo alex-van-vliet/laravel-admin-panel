@@ -3,6 +3,7 @@
 namespace AlexVanVliet\LAP\Controllers;
 
 
+use AlexVanVliet\LAP\Pages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -12,6 +13,9 @@ class CreateController extends Controller
     {
         $model = $this->panel->findModel($resource);
         $config = $this->panel->getConfig($model);
+        if (!($config['pages'] & Pages::CREATE)) {
+            return abort(404);
+        }
 
         return view('lap::create')
             ->with('resource', $resource)
