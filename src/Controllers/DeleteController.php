@@ -7,7 +7,7 @@ use AlexVanVliet\LAP\Pages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class DestroyController extends Controller
+class DeleteController extends Controller
 {
     public function __invoke(Request $request, $resource, $id)
     {
@@ -20,9 +20,11 @@ class DestroyController extends Controller
         $query = $config['query'](call_user_func([$model, 'query']));
         $result = $query->findOrFail($id);
 
-        $result->delete();
-
-        return redirect()
-            ->route('admin.index', [$resource]);
+        return view('lap::delete')
+            ->with('resource', $resource)
+            ->with('model', $model)
+            ->with('result', $result)
+            ->with('config', $config)
+            ->with('title', Str::ucfirst(class_basename($model)));
     }
 }

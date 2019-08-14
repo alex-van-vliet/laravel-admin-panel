@@ -5,7 +5,7 @@
         <div class="card mb-2">
             <h5 class="card-header d-flex">
                 <span class="flex-grow-1">{{ $title }}</span>
-                <a href="{{ route('admin.create', [$resource]) }}"><i class="fa fa-plus"></i></a>
+                <a href="{{ route('admin.create', [$resource]) }}" class="ml-2"><i class="fa fa-plus"></i></a>
             </h5>
             <div class="card-body p-0 table-responsive">
                 <table class="table table-hover mb-0">

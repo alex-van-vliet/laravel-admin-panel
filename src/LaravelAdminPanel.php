@@ -3,6 +3,7 @@
 namespace AlexVanVliet\LAP;
 
 use AlexVanVliet\LAP\Controllers\CreateController;
+use AlexVanVliet\LAP\Controllers\DeleteController;
 use AlexVanVliet\LAP\Controllers\DestroyController;
 use AlexVanVliet\LAP\Controllers\EditController;
 use AlexVanVliet\LAP\Controllers\IndexController;
@@ -60,6 +61,8 @@ class LaravelAdminPanel
         $this->registrar->put('/{resource}/{id}', UpdateController::class)
             ->name('admin.update');
 
+        $this->registrar->get('/{resource}/{id}/delete', DeleteController::class)
+            ->name('admin.delete');
         $this->registrar->delete('/{resource}/{id}', DestroyController::class)
             ->name('admin.destroy');
     }
