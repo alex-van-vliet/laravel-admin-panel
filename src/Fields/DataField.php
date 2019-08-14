@@ -27,8 +27,16 @@ abstract class DataField implements Field
         return false;
     }
 
-    public function updateValue($value)
+    public function updateValue($current, $value)
     {
+        if (is_null($value)) {
+            return $current;
+        }
         return $value;
+    }
+
+    public function removeFromInputIfEmptyOnUpdate()
+    {
+        return false;
     }
 }

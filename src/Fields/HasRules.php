@@ -4,7 +4,7 @@ namespace AlexVanVliet\LAP\Fields;
 
 trait HasRules
 {
-    protected $rules_ = [];
+    protected $rules_ = null;
 
     public function rules($rules = null)
     {

@@ -2,6 +2,8 @@
 
 namespace AlexVanVliet\LAP\Fields;
 
+use Illuminate\Support\Facades\Hash;
+
 class Password extends DataField
 {
     public function __construct($name)
@@ -12,5 +14,17 @@ class Password extends DataField
     public function view($type)
     {
         return "lap::fields.password.$type";
+    }
+
+    public function updateValue($current, $value)
+    {
+        if (is_null($value))
+            return $current;
+        return Hash::make($value);
+    }
+
+    public function removeFromInputIfEmptyOnUpdate()
+    {
+        return true;
     }
 }
