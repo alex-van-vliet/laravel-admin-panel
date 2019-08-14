@@ -3,7 +3,11 @@
 @section('content')
     <div class="container d-flex flex-items-center flex-column">
         <div class="card mb-2">
-            <h5 class="card-header">{{ $title }}</h5>
+            <h5 class="card-header d-flex">
+                <span class="flex-grow-1">{{ $title }}</span>
+                <a href="{{ route('admin.show', [$resource, $result]) }}" class="mr-2"><i class="fa fa-eye"></i></a>
+                <a href="{{ route('admin.index', [$resource]) }}"><i class="fa fa-undo"></i></a>
+            </h5>
             <div class="card-body">
                 <form action="{{ route('admin.update', [$resource, $result]) }}" method="POST">
                     {{ csrf_field() }}
@@ -19,9 +23,6 @@
                         @endif
                     @endforeach
                     <button type="submit" class="btn btn-primary">Update</button>
-                    <a href="{{ route('admin.show', [$resource, $result]) }}" class="btn btn-light">
-                        Show
-                    </a>
                 </form>
             </div>
         </div>

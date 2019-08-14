@@ -3,7 +3,11 @@
 @section('content')
     <div class="container d-flex flex-items-center flex-column">
         <div class="card mb-2">
-            <h5 class="card-header">{{ $title }}</h5>
+            <h5 class="card-header d-flex">
+                <span class="flex-grow-1">{{ $title }}</span>
+                <a href="{{ route('admin.edit', [$resource, $result]) }}" class="mr-2"><i class="fa fa-pencil-alt"></i></a>
+                <a href="{{ route('admin.index', [$resource]) }}"><i class="fa fa-undo"></i></a>
+            </h5>
             <div class="card-body p-0 table-responsive">
                 <table class="table table-hover mb-0">
                     <tbody>
@@ -22,14 +26,6 @@
                                 </tr>
                             @endif
                         @endforeach
-                        <tr>
-                            <th scope="col" class="align-middle">Actions</th>
-                            <td>
-                                <a href="{{ route('admin.edit', [$resource, $result]) }}" class="btn btn-primary">
-                                    Edit
-                                </a>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
