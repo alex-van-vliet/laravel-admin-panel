@@ -4,14 +4,10 @@ namespace AlexVanVliet\LAP\Fields;
 
 interface Field
 {
-    public const HIDDEN = 0;
-    public const INLINE = 1;
-    public const BLOCK = 2;
+    public const INLINE = 0;
+    public const BLOCK = 1;
 
-    public function display();
-    public function inline();
-    public function block();
-    public function hidden();
+    public function pages($pages = null);
 
     public function displayText($name = null);
 

@@ -5,7 +5,7 @@ namespace AlexVanVliet\LAP\Fields;
 abstract class DataField implements Field
 {
     use HasSortKey;
-    use HasDisplay;
+    use HasPages;
     use HasDisplayText;
     use HasType;
     use HasName;
@@ -19,5 +19,10 @@ abstract class DataField implements Field
     public function view($type)
     {
         return "lap::fields.default.$type";
+    }
+
+    public function display()
+    {
+        return Field::INLINE;
     }
 }

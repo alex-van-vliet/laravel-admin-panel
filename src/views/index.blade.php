@@ -9,7 +9,8 @@
                     <thead>
                         <tr>
                             @foreach($config['fields'] as $field)
-                                @if($field->display() === \AlexVanVliet\LAP\Fields\Field::INLINE)
+                                @if($field->pages() & \AlexVanVliet\LAP\Pages::INDEX
+                                    && $field->display() === \AlexVanVliet\LAP\Fields\Field::INLINE)
                                     <th scope="col">{{ \Illuminate\Support\Str::ucfirst($field->displayText()) }}</th>
                                 @endif
                                 {{--@if($field->option('displayed', true))
@@ -30,14 +31,16 @@
                                     </th>
                                 @endif--}}
                             @endforeach
+                            <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($results as $result)
                             <tr>
                                 @foreach($config['fields'] as $field)
-                                    @if($field->display() === \AlexVanVliet\LAP\Fields\Field::INLINE)
-                                        <td>
+                                    @if($field->pages() & \AlexVanVliet\LAP\Pages::INDEX
+                                        && $field->display() === \AlexVanVliet\LAP\Fields\Field::INLINE)
+                                        <td class="align-middle">
                                             @include($field->view('index'), [
                                                 'type' => 'index',
                                                 'field' => $field,
@@ -46,6 +49,11 @@
                                         </td>
                                     @endif
                                 @endforeach
+                                <td class="align-middle">
+                                    <a href="{{ route('admin.show', [$resource, $result]) }}" class="btn btn-light">
+                                        Show
+                                    </a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

@@ -8,4 +8,9 @@ class Password extends DataField
     {
         parent::__construct('password', $name);
     }
+
+    public function view($type)
+    {
+        return "lap::fields.password.$type";
+    }
 }

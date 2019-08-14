@@ -8,15 +8,10 @@ use Illuminate\Support\Str;
 
 class IndexController extends Controller
 {
-    public function __invoke(Request $request, $model)
+    public function __invoke(Request $request, $resource)
     {
-        $model = $this->panel->findModel($model);
-        $config = array_merge(call_user_func([$model, 'getConfig']), [
-            'paginate' => 25,
-            'query' => function ($query) {
-                return $query;
-            },
-        ]);
+        $model = $this->panel->findModel($resource);
+        $config = $this->panel->getConfig($model);
 
         $query = $config['query'](call_user_func([$model, 'query']));
         if ($config['paginate'] === false) {
@@ -26,6 +21,8 @@ class IndexController extends Controller
         }
 
         return view('lap::index')
+            ->with('resource', $resource)
+            ->with('model', $model)
             ->with('results', $results)
             ->with('config', $config)
             ->with('title', Str::ucfirst(Str::plural(class_basename($model))));

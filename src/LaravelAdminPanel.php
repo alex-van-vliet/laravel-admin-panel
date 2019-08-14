@@ -3,6 +3,7 @@
 namespace AlexVanVliet\LAP;
 
 use AlexVanVliet\LAP\Controllers\IndexController;
+use AlexVanVliet\LAP\Controllers\ShowController;
 use AlexVanVliet\LAP\Exceptions\Exception;
 use AlexVanVliet\LAP\Exceptions\ModelNotFoundException;
 use Illuminate\Routing\RouteRegistrar;
@@ -38,8 +39,10 @@ class LaravelAdminPanel
 
     public function mapRoutes()
     {
-        $this->registrar->get("/{model}", IndexController::class)
-            ->name("admin.index");
+        $this->registrar->get('/{model}', IndexController::class)
+            ->name('admin.index');
+        $this->registrar->get('/{model}/{id}', ShowController::class)
+            ->name('admin.show');
     }
 
     public function findModel($url)
@@ -47,5 +50,15 @@ class LaravelAdminPanel
         if (!isset($this->models[$url]))
             throw new ModelNotFoundException("Model for '$url' not found.");
         return $this->models[$url];
+    }
+
+    public function getConfig($model)
+    {
+        return array_merge(call_user_func([$model, 'getConfig']), [
+            'paginate' => 25,
+            'query' => function ($query) {
+                return $query;
+            },
+        ]);
     }
 }
