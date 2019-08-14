@@ -8,7 +8,6 @@
                 <table class="table table-hover mb-0">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
                             @foreach($fields as $field)
                                 @if($field->option('displayed', true))
                                     <th scope="col">
@@ -21,7 +20,6 @@
                     <tbody>
                         @foreach($results as $result)
                             <tr>
-                                <th scope="row">{{ $result->id }}</th>
                                 @foreach($fields as $field)
                                     @if($field->option('displayed', true))
                                         <td>{{ $field->value($result) }}</td>
@@ -33,7 +31,7 @@
                 </table>
             </div>
         </div>
-        @if ($paginated)
+        @if (isset($paginated) && $paginated)
             {{ $results->render() }}
         @endif
     </div>

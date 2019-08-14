@@ -7,81 +7,59 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Routing\Router;
-use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    /**
-     * @var \Illuminate\Routing\Router
-     */
-    protected $router;
-
-    public function __construct(Router $router)
-    {
-        $this->router = $router;
+    public function getModel() {
+        if (!property_exists(static::class, 'model'))
+            throw new MissingOptionException('model');
+        return $this->model;
     }
 
-    protected static $paginateBy = 25;
-
-    protected function query()
-    {
-        return call_user_func_array([static::$model, 'query'], []);
-    }
-
-    protected function results()
-    {
-        $query = $this->query();
-
-        if (static::$paginateBy) {
-            return $query->paginate(self::$paginateBy);
+    public function getFields() {
+        if (!property_exists(static::class, 'fields')) {
+            throw new MissingOptionException('fields');
         }
-
-        return $query->get();
-    }
-
-    protected function indexTitle()
-    {
-        return Str::plural(static::$title);
-    }
-
-    protected function urls(Request $request)
-    {
-        $router = &$this->router;
-        $start = substr($request->route()->getName(), 0,
-            strrpos($request->route()->getName(), '.') + 1);
-        return collect([
-            'index',
-            'show',
-            'create',
-            'store',
-            'edit',
-            'update',
-            'destroy',
-        ])->map(function ($value) use (&$start) {
-            return $start.$value;
-        })->filter(function ($route) use (&$router) {
-            return $router->has($route);
-        })->toArray();
-    }
-
-    protected function fields()
-    {
-        return collect(static::$fields)
-            ->map(function ($field, $name) {
-                return new Field($name, $field);
-            });
+        return $this->fields;
     }
 
     public function index(Request $request)
     {
-        return view('lap::index')
-            ->with('results', $this->results())
-            ->with('paginated', !!self::$paginateBy)
-            ->with('title', $this->indexTitle())
-            ->with('urls', $this->urls($request))
-            ->with('fields', $this->fields());
+        $query = call_user_func_array([$this->getModel(), 'query'], []);
+        $currentModule = 0;
+        $modules = [];
+        $modulesOrder = [];
+        foreach (static::$modules['index'] as $module) {
+            if (is_array($module)) {
+                $modules[$module[0]] = new $module[0]($this, ...($module[1] ?? []));
+                $modulesOrder[] = $module[0];
+            } else {
+                $modules[$module] = new $module($this);
+                $modulesOrder[] = $module;
+            }
+        }
+        $next = function ($query) use (
+            &$currentModule, &$modules, &$modulesOrder, &$next
+        ) {
+            if ($currentModule !== count($modulesOrder)) {
+                return $modules[$modulesOrder[$currentModule++]]->query($query,
+                    $next);
+            }
+            return $query;
+        };
+        $results = $next($query);
+        $currentModule = 0;
+        $next = function ($results) use (
+            &$currentModule, &$modules, &$modulesOrder, &$next
+        ) {
+            if ($currentModule !== count($modulesOrder)) {
+                return $modules[$modulesOrder[$currentModule++]]->handle($results,
+                    $next);
+            }
+            return $results;
+        };
+        return $next($results);
     }
 }
