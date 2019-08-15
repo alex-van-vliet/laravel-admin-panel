@@ -34,6 +34,7 @@ class IndexController extends Controller
         }
 
         return view('lap::index')
+            ->with('panel', $this->panel)
             ->with('resource', $resource)
             ->with('model', $model)
             ->with('results', $results)

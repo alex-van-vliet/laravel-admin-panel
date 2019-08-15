@@ -12,6 +12,7 @@ use AlexVanVliet\LAP\Controllers\StoreController;
 use AlexVanVliet\LAP\Controllers\UpdateController;
 use AlexVanVliet\LAP\Exceptions\Exception;
 use AlexVanVliet\LAP\Exceptions\ModelNotFoundException;
+use AlexVanVliet\LAP\Exceptions\SetupException;
 use Illuminate\Routing\RouteRegistrar;
 
 class LaravelAdminPanel
@@ -72,6 +73,13 @@ class LaravelAdminPanel
         if (!isset($this->models[$url]))
             throw new ModelNotFoundException("Model for '$url' not found.");
         return $this->models[$url];
+    }
+
+    public function findResource($model)
+    {
+        if (!isset($this->urls[$model]))
+            throw new SetupException("Resource for '$model' not found.");
+        return $this->urls[$model];
     }
 
     public function getConfig($model)

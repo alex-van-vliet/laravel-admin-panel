@@ -21,6 +21,7 @@ class ShowController extends Controller
         $result = $query->findOrFail($id);
 
         return view('lap::show')
+            ->with('panel', $this->panel)
             ->with('resource', $resource)
             ->with('model', $model)
             ->with('result', $result)

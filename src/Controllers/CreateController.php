@@ -18,6 +18,7 @@ class CreateController extends Controller
         }
 
         return view('lap::create')
+            ->with('panel', $this->panel)
             ->with('resource', $resource)
             ->with('model', $model)
             ->with('config', $config)
