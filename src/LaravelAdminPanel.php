@@ -7,6 +7,7 @@ use AlexVanVliet\LAP\Controllers\DeleteController;
 use AlexVanVliet\LAP\Controllers\DestroyController;
 use AlexVanVliet\LAP\Controllers\EditController;
 use AlexVanVliet\LAP\Controllers\IndexController;
+use AlexVanVliet\LAP\Controllers\MainController;
 use AlexVanVliet\LAP\Controllers\ShowController;
 use AlexVanVliet\LAP\Controllers\StoreController;
 use AlexVanVliet\LAP\Controllers\UpdateController;
@@ -46,6 +47,9 @@ class LaravelAdminPanel
 
     public function mapRoutes()
     {
+        $this->registrar->get('/', MainController::class)
+            ->name('admin.main');
+
         $this->registrar->get('/{resource}', IndexController::class)
             ->name('admin.index');
 
@@ -73,6 +77,11 @@ class LaravelAdminPanel
         if (!isset($this->models[$url]))
             throw new ModelNotFoundException("Model for '$url' not found.");
         return $this->models[$url];
+    }
+
+    public function getResources()
+    {
+        return $this->urls;
     }
 
     public function findResource($model)
