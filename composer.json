@@ -12,6 +12,11 @@
     "require": {
         "laravel/framework": "^5.8"
     },
+    "autoload": {
+        "psr-4": {
+            "AlexVanVliet\\LAP\\": "src"
+        }
+    },
     "extra": {
         "laravel": {
             "providers": [
