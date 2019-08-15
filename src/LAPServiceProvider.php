@@ -28,5 +28,9 @@ class LAPServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadViewsFrom(__DIR__.'/views', 'lap');
+
+        $this->publishes([
+            __DIR__.'/views' => resource_path('views/vendor/lap'),
+        ]);
     }
 }
