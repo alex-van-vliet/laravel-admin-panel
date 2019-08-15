@@ -84,10 +84,6 @@ class LaravelAdminPanel
             'pages' => Pages::ALL,
         ], call_user_func([$model, 'getConfig']));
 
-        foreach ($config['fields'] as $i => $field) {
-            $config['fields'][$i]->model($model);
-        }
-
         return $config;
     }
 }

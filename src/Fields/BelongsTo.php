@@ -4,11 +4,12 @@ namespace AlexVanVliet\LAP\Fields;
 
 class BelongsTo implements Field
 {
-    use HasModel, HasPages, HasDisplayText, HasType, HasName, HasRules;
+    use HasModel, HasPages, HasDisplayText, HasName, HasRules;
 
     public function __construct($name)
     {
         $this->name_ = $name;
+        $this->setupModel();
     }
 
     public function view($type)

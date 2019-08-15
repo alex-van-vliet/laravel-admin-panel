@@ -11,6 +11,7 @@ abstract class DataField implements Field
     {
         $this->type_ = $type;
         $this->name_ = $name;
+        $this->setupModel();
     }
 
     public function view($type)
